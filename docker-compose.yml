@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+
+  migration:
+    image: modernproject/backend
+    command: python3 manage.py migrate
+    environment:
+      - DJANGO_READ_DOT_ENV_FILE=True
+    restart: on-failure
+
+  collectstatic:
+    image: modernproject/backend
+    command: python3 manage.py collectstatic --no-input
+    environment:
+      - DJANGO_READ_DOT_ENV_FILE=True
+    restart: on-failure
+
+  backend:
+    image: modernproject/backend
+    command: gunicorn config.wsgi:application -w 1 -b :8000    
+    environment:
+      - DJANGO_READ_DOT_ENV_FILE=True
+    ports:
+      - "8000:8000"
+    restart: on-failure
+
+  # redis:
+  #   image: redis
+  #   ports:
+  #     - "6379:6379"
+  #   restart: on-failure
