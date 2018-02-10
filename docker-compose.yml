@@ -2,12 +2,12 @@ version: '2'
 
 services:
 
-  createsuperuser:
-    image: modernproject/backend
-    command: python3 manage.py createsuperuser
-    env_file:
-      - ./envs/backend.env
-    restart: on-failure
+  # createsuperuser:
+  #   image: modernproject/backend
+  #   command: python3 manage.py createsuperuser
+  #   env_file:
+  #     - ./envs/backend.env
+  #   restart: on-failure
 
   migration:
     image: modernproject/backend
