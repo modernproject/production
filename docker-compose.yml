@@ -6,28 +6,28 @@ services:
     image: modernproject/backend
     command: python3 manage.py createsuperuser
     env_file:
-      - backend.env
+      - ./envs/backend.env
     restart: on-failure
 
   migration:
     image: modernproject/backend
     command: python3 manage.py migrate
     env_file:
-      - backend.env
+      - ./envs/backend.env
     restart: on-failure
 
   collectstatic:
     image: modernproject/backend
     command: python3 manage.py collectstatic --no-input
     env_file:
-      - backend.env
+      - ./envs/backend.env
     restart: on-failure
 
   backend:
     image: modernproject/backend
     command: gunicorn config.wsgi:application -w 1 -b :8000    
     env_file:
-      - backend.env
+      - ./envs/backend.env
     ports:
       - "8000:8000"
     restart: on-failure
