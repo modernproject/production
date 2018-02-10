@@ -2,25 +2,32 @@ version: '2'
 
 services:
 
+  createsuperuser:
+    image: modernproject/backend
+    command: python3 manage.py createsuperuser
+    env_file:
+      - backend.env
+    restart: on-failure
+
   migration:
     image: modernproject/backend
     command: python3 manage.py migrate
-    environment:
-      - DJANGO_READ_DOT_ENV_FILE=True
+    env_file:
+      - backend.env
     restart: on-failure
 
   collectstatic:
     image: modernproject/backend
     command: python3 manage.py collectstatic --no-input
-    environment:
-      - DJANGO_READ_DOT_ENV_FILE=True
+    env_file:
+      - backend.env
     restart: on-failure
 
   backend:
     image: modernproject/backend
     command: gunicorn config.wsgi:application -w 1 -b :8000    
-    environment:
-      - DJANGO_READ_DOT_ENV_FILE=True
+    env_file:
+      - backend.env
     ports:
       - "8000:8000"
     restart: on-failure
