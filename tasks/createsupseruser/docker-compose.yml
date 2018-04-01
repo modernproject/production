@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+
+  migration:
+    build: 
+      context: ../backend/
+      dockerfile: /compose/production/Dockerfile
+    image: modernproject/backend
+    command: python3 manage.py migrate
+    env_file:
+      - ./envs/backend.env
+    restart: on-failure
+
+  createsuperuser:
+    build:
+      context: ../backend/
+      dockerfile: /compose/production/Dockerfile
+    image: modernproject/backend
+    command: python3 manage.py createsuperuser
+    env_file:
+      - ./envs/backend.env
+    restart: on-failure

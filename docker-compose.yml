@@ -2,14 +2,10 @@ version: '2'
 
 services:
 
-  # createsuperuser:
-  #   image: modernproject/backend
-  #   command: python3 manage.py createsuperuser
-  #   env_file:
-  #     - ./envs/backend.env
-  #   restart: on-failure
-
   migration:
+    build: 
+      context: ../backend/
+      dockerfile: /compose/production/Dockerfile
     image: modernproject/backend
     command: python3 manage.py migrate
     env_file:
@@ -17,6 +13,9 @@ services:
     restart: on-failure
 
   collectstatic:
+    build:
+      context: ../backend/
+      dockerfile: /compose/production/Dockerfile
     image: modernproject/backend
     command: python3 manage.py collectstatic --no-input
     env_file:
@@ -24,6 +23,9 @@ services:
     restart: on-failure
 
   backend:
+    build:
+      context: ../backend/
+      dockerfile: /compose/production/Dockerfile
     image: modernproject/backend
     command: gunicorn config.wsgi:application -w 1 -b :8000    
     env_file:
